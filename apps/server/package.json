@@ -4,20 +4,19 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vercel dev",
-    "build": "tsc",
+    "build": "tsc -b",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@ecommerce/config": "*",
     "@ecommerce/types": "*",
     "@ecommerce/utils": "*",
-    "@ecommerce/config": "*",
     "@supabase/supabase-js": "^2.49.0"
   },
   "devDependencies": {
     "@types/node": "^24.12.0",
     "@vercel/node": "^5.0.0",
     "typescript": "~5.9.3",
-    "vercel": "^41.0.0"
+    "vercel": "^50.35.0"
   }
 }

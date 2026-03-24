@@ -8,10 +8,13 @@
   ],
   "scripts": {
     "dev:client": "npm run dev -w @ecommerce/client",
-    "dev:server": "npm run dev -w @ecommerce/server",
+    "dev:server": "cd apps/server && vercel dev",
     "build:client": "npm run build -w @ecommerce/client",
     "build:server": "npm run build -w @ecommerce/server",
     "lint": "npm run lint --workspaces --if-present",
     "typecheck": "npm run typecheck --workspaces --if-present"
+  },
+  "dependencies": {
+    "vercel": "^50.35.0"
   }
 }
