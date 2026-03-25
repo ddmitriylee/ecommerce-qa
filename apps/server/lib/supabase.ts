@@ -1,4 +1,4 @@
-import { createSupabaseAdmin, type SupabaseClient } from '@ecommerce/config';
+import { createClient, type SupabaseClient } from '@supabase/supabase-js';
 
 let adminClient: SupabaseClient | null = null;
 
@@ -7,7 +7,19 @@ let adminClient: SupabaseClient | null = null;
  */
 export function getSupabaseAdmin(): SupabaseClient {
   if (!adminClient) {
-    adminClient = createSupabaseAdmin();
+    const url = process.env.SUPABASE_URL;
+    const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+    if (!url || !serviceKey) {
+      throw new Error('Missing SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY');
+    }
+
+    adminClient = createClient(url, serviceKey, {
+      auth: {
+        autoRefreshToken: false,
+        persistSession: false,
+      },
+    });
   }
   return adminClient;
 }
@@ -16,14 +28,15 @@ export function getSupabaseAdmin(): SupabaseClient {
  * Create a Supabase client scoped to the requesting user's JWT.
  */
 export function getSupabaseForUser(accessToken: string): SupabaseClient {
-  const { createClient } = require('@supabase/supabase-js');
-  return createClient(
-    process.env.SUPABASE_URL!,
-    process.env.SUPABASE_ANON_KEY!,
-    {
-      global: {
-        headers: { Authorization: `Bearer ${accessToken}` },
-      },
-    }
-  );
+  const url = process.env.SUPABASE_URL!;
+  const anonKey = process.env.SUPABASE_ANON_KEY!;
+
+  return createClient(url, anonKey, {
+    global: {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    },
+  });
 }
+
+export type { SupabaseClient };
+
