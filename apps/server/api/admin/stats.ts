@@ -1,9 +1,11 @@
+import { cors } from '../../lib/cors.js';
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { getSupabaseAdmin } from '../../lib/supabase.js';
 import { requireAdmin } from '../../lib/auth.js';
 import { handleError, sendSuccess, methodNotAllowed } from '../../lib/errors.js';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
+  if (cors(req, res)) return;
   if (req.method !== 'GET') return methodNotAllowed(res);
 
   try {

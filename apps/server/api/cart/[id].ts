@@ -1,9 +1,11 @@
+import { cors } from '../../lib/cors.js';
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { getSupabaseAdmin } from '../../lib/supabase.js';
 import { requireAuth } from '../../lib/auth.js';
 import { handleError, sendSuccess, methodNotAllowed, NotFoundError, ValidationError } from '../../lib/errors.js';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
+  if (cors(req, res)) return;
   try {
     const user = await requireAuth(req, res);
     if (!user) return;
