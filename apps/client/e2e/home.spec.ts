@@ -22,10 +22,9 @@ test('homepage has title and catalog link', async ({ page }) => {
     // Expect a title "to contain" a substring.
     await expect(page).toHaveTitle(/E-commerce/i);
 
-    // Check for catalog link
-    const catalogLink = page.getByRole('link', { name: /catalog/i });
-    if (await catalogLink.isVisible()) {
-        await catalogLink.click();
-        await expect(page).toHaveURL(/.*catalog/);
-    }
+    // Check for catalog link in the navigation menu
+    const catalogLink = page.getByRole('navigation').getByRole('link', { name: 'Catalog', exact: true });
+    await expect(catalogLink).toBeVisible();
+    await catalogLink.click();
+    await expect(page).toHaveURL(/.*catalog/);
 });
