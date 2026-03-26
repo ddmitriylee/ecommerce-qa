@@ -10,13 +10,13 @@ export default function App() {
 
   useEffect(() => {
     loadSession();
-  }, []);
+  }, [loadSession]);
 
   useEffect(() => {
     if (isAuthenticated) {
       fetchCart();
     }
-  }, [isAuthenticated]);
+  }, [isAuthenticated, fetchCart]);
 
   return <RouterProvider router={router} />;
 }

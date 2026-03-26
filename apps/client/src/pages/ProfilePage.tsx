@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../features/auth/authStore';
 import { api } from '../shared/api/client';
@@ -18,21 +18,24 @@ export function ProfilePage() {
   const [orders, setOrders] = useState<Order[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
+  const fetchOrders = useCallback(async () => {
+    try {
+      const { data: res } = await api.get('/orders');
+      setOrders(res.data || []);
+    } catch {
+      // Ignore error
+    }
+    setIsLoading(false);
+  }, []);
+
   useEffect(() => {
     if (!isAuthenticated) {
       navigate('/login');
       return;
     }
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     fetchOrders();
-  }, [isAuthenticated]);
-
-  const fetchOrders = async () => {
-    try {
-      const { data: res } = await api.get('/orders');
-      setOrders(res.data || []);
-    } catch {}
-    setIsLoading(false);
-  };
+  }, [isAuthenticated, navigate, fetchOrders]);
 
   const statusColors: Record<string, string> = {
     pending: 'bg-amber-500/20 text-amber-300',

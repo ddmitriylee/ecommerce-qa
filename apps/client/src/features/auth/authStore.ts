@@ -39,9 +39,10 @@ export const useAuthStore = create<AuthState>((set) => ({
       localStorage.setItem('session', JSON.stringify(session));
       localStorage.setItem('user', JSON.stringify(user));
       set({ user, isAuthenticated: true, isLoading: false });
-    } catch (err: any) {
+    } catch (err: unknown) {
+      const error = err as { response?: { data?: { error?: string } } };
       set({
-        error: err.response?.data?.error || 'Login failed',
+        error: error.response?.data?.error || 'Login failed',
         isLoading: false,
       });
     }
@@ -59,9 +60,10 @@ export const useAuthStore = create<AuthState>((set) => ({
       localStorage.setItem('session', JSON.stringify(session));
       localStorage.setItem('user', JSON.stringify(user));
       set({ user, isAuthenticated: true, isLoading: false });
-    } catch (err: any) {
+    } catch (err: unknown) {
+      const error = err as { response?: { data?: { error?: string } } };
       set({
-        error: err.response?.data?.error || 'Registration failed',
+        error: error.response?.data?.error || 'Registration failed',
         isLoading: false,
       });
     }

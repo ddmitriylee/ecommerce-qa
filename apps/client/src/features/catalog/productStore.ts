@@ -85,7 +85,9 @@ export const useProductStore = create<ProductState>((set, get) => ({
     try {
       const { data: res } = await api.get('/categories');
       set({ categories: res.data || [] });
-    } catch {}
+    } catch {
+      // Ignore error
+    }
   },
 
   fetchProductById: async (id) => {

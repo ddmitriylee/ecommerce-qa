@@ -1,15 +1,25 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../features/auth/authStore';
 import { api } from '../shared/api/client';
 import { formatPrice } from '../shared/lib/formatters';
+
+interface Order {
+  id: string;
+  status: string;
+  total_price: number;
+  created_at: string;
+  profile?: {
+    full_name: string;
+  };
+}
 
 interface Stats {
   totalProducts: number;
   totalOrders: number;
   totalUsers: number;
   totalRevenue: number;
-  recentOrders: any[];
+  recentOrders: Order[];
 }
 
 export function AdminPage() {
@@ -18,21 +28,25 @@ export function AdminPage() {
   const [stats, setStats] = useState<Stats | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    if (!isAuthenticated || user?.profile?.role !== 'admin') {
-      navigate('/');
-      return;
-    }
-    fetchStats();
-  }, [isAuthenticated]);
-
-  const fetchStats = async () => {
+  const fetchStats = useCallback(async () => {
     try {
       const { data: res } = await api.get('/admin/stats');
       setStats(res.data);
-    } catch {}
+    } catch {
+      // Error handle
+    }
     setIsLoading(false);
-  };
+  }, []);
+
+  useEffect(() => {
+    const role = user?.profile?.role;
+    if (!isAuthenticated || role !== 'admin') {
+      navigate('/');
+      return;
+    }
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    fetchStats();
+  }, [isAuthenticated, user?.profile?.role, navigate, fetchStats]);
 
   const statusColors: Record<string, string> = {
     pending: 'bg-amber-500/20 text-amber-300',
@@ -91,7 +105,7 @@ export function AdminPage() {
               </tr>
             </thead>
             <tbody className="divide-y divide-white/5">
-              {(stats?.recentOrders || []).map((order: any) => (
+              {stats?.recentOrders.map((order) => (
                 <tr key={order.id} className="hover:bg-white/[0.02] transition-colors">
                   <td className="px-6 py-4 text-sm font-mono text-slate-300">#{order.id.slice(0, 8)}</td>
                   <td className="px-6 py-4 text-sm text-slate-300">{order.profile?.full_name || 'N/A'}</td>

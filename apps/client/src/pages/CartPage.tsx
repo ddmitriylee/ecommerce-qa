@@ -15,7 +15,7 @@ export function CartPage() {
       return;
     }
     fetchCart();
-  }, [isAuthenticated]);
+  }, [isAuthenticated, navigate, fetchCart]);
 
   if (isLoading) {
     return (
