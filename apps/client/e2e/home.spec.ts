@@ -4,7 +4,7 @@ test('homepage has title and catalog link', async ({ page }) => {
     await page.goto('/');
 
     // Expect a title "to contain" a substring.
-    await expect(page).toHaveTitle(/Ecommerce/i);
+    await expect(page).toHaveTitle(/E-commerce/i);
 
     // Check for catalog link
     const catalogLink = page.getByRole('link', { name: /catalog/i });
