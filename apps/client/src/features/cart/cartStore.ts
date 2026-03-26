@@ -63,27 +63,35 @@ export const useCartStore = create<CartState>((set, get) => ({
     try {
       await api.post('/cart', { product_id: productId, quantity });
       await get().fetchCart();
-    } catch {}
+    } catch {
+      // Ignore error
+    }
   },
 
   updateQuantity: async (itemId, quantity) => {
     try {
       await api.put(`/cart/${itemId}`, { quantity });
       await get().fetchCart();
-    } catch {}
+    } catch {
+      // Ignore error
+    }
   },
 
   removeItem: async (itemId) => {
     try {
       await api.delete(`/cart/${itemId}`);
       await get().fetchCart();
-    } catch {}
+    } catch {
+      // Ignore error
+    }
   },
 
   clearCart: async () => {
     try {
       await api.delete('/cart');
       set({ items: [], totalItems: 0, totalPrice: 0 });
-    } catch {}
+    } catch {
+      // Ignore error
+    }
   },
 }));

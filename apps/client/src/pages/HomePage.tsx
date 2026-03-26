@@ -9,7 +9,7 @@ export function HomePage() {
   useEffect(() => {
     fetchProducts();
     fetchCategories();
-  }, []);
+  }, [fetchProducts, fetchCategories]);
 
   const featured = products.slice(0, 4);
 
@@ -116,7 +116,7 @@ export function HomePage() {
                     )}
                   </div>
                   <div className="p-4">
-                    <p className="text-xs text-primary-400 font-medium mb-1">{(product as any).category?.name}</p>
+                    <p className="text-xs text-primary-400 font-medium mb-1">{product.category?.name}</p>
                     <h3 className="text-sm font-semibold text-white line-clamp-2 mb-2 group-hover:text-primary-300 transition-colors">
                       {product.title}
                     </h3>

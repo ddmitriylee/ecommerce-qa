@@ -16,7 +16,7 @@ export function ProductPage() {
 
   useEffect(() => {
     if (id) fetchProductById(id);
-  }, [id]);
+  }, [id, fetchProductById]);
 
   const handleAddToCart = async () => {
     if (!isAuthenticated) {
@@ -87,7 +87,7 @@ export function ProductPage() {
         {/* Details */}
         <div className="flex flex-col">
           <p className="text-primary-400 text-sm font-medium mb-2">
-            {(product as any).category?.name || 'Uncategorized'}
+            {product.category?.name || 'Uncategorized'}
           </p>
           <h1 className="text-3xl sm:text-4xl font-bold text-white mb-4">{product.title}</h1>
 
@@ -138,11 +138,10 @@ export function ProductPage() {
 
               <button
                 onClick={handleAddToCart}
-                className={`flex-1 py-3 rounded-xl font-semibold text-white transition-all ${
-                  added
+                className={`flex-1 py-3 rounded-xl font-semibold text-white transition-all ${added
                     ? 'bg-emerald-600'
                     : 'bg-primary-600 hover:bg-primary-500 hover:scale-[1.02] hover:shadow-lg hover:shadow-primary-500/25'
-                }`}
+                  }`}
               >
                 {added ? '✓ Added to Cart' : 'Add to Cart'}
               </button>

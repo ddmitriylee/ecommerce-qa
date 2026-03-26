@@ -16,8 +16,9 @@ export function CheckoutPage() {
     try {
       await api.post('/orders');
       navigate('/profile');
-    } catch (err: any) {
-      setError(err.response?.data?.error || 'Failed to place order');
+    } catch (err: unknown) {
+      const error = err as { response?: { data?: { error?: string } } };
+      setError(error.response?.data?.error || 'Failed to place order');
     } finally {
       setIsSubmitting(false);
     }

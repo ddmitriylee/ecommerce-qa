@@ -12,9 +12,12 @@
     "build:client": "npm run build -w @ecommerce/client",
     "build:server": "npm run build -w @ecommerce/server",
     "lint": "npm run lint --workspaces --if-present",
-    "typecheck": "npm run typecheck --workspaces --if-present"
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present",
+    "test:e2e": "npm run test:e2e --workspaces --if-present"
   },
   "dependencies": {
+    "playwright": "^1.58.2",
     "vercel": "^50.35.0"
   }
 }
