@@ -9,7 +9,7 @@ export function CatalogPage() {
     products, categories, total, page, limit, isLoading,
     fetchProducts, fetchCategories, setFilters, setPage, filters,
   } = useProductStore();
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const [search, setSearch] = useState(searchParams.get('search') || '');
   const debouncedSearch = useDebounce(search, 400);
 
@@ -21,15 +21,15 @@ export function CatalogPage() {
     if (Object.keys(urlFilters).length > 0) {
       setFilters(urlFilters);
     }
-  }, []);
+  }, [fetchCategories, searchParams, setFilters]);
 
   useEffect(() => {
     setFilters({ search: debouncedSearch || undefined });
-  }, [debouncedSearch]);
+  }, [debouncedSearch, setFilters]);
 
   useEffect(() => {
     fetchProducts();
-  }, [filters, page]);
+  }, [filters, page, fetchProducts]);
 
   const totalPages = Math.ceil(total / limit);
 
@@ -83,11 +83,10 @@ export function CatalogPage() {
       <div className="flex flex-wrap gap-2 mb-8">
         <button
           onClick={() => setFilters({ category_id: undefined })}
-          className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
-            !filters.category_id
+          className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${!filters.category_id
               ? 'bg-primary-600 text-white'
               : 'glass-light text-slate-300 hover:text-white'
-          }`}
+            }`}
         >
           All
         </button>
@@ -95,11 +94,10 @@ export function CatalogPage() {
           <button
             key={cat.id}
             onClick={() => handleCategoryFilter(cat.id)}
-            className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
-              filters.category_id === cat.id
+            className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${filters.category_id === cat.id
                 ? 'bg-primary-600 text-white'
                 : 'glass-light text-slate-300 hover:text-white'
-            }`}
+              }`}
           >
             {cat.name}
           </button>
@@ -144,7 +142,7 @@ export function CatalogPage() {
                 )}
               </div>
               <div className="p-4">
-                <p className="text-xs text-primary-400 font-medium mb-1">{(product as any).category?.name}</p>
+                <p className="text-xs text-primary-400 font-medium mb-1">{product.category?.name}</p>
                 <h3 className="text-sm font-semibold text-white line-clamp-2 mb-2 group-hover:text-primary-300 transition-colors">
                   {product.title}
                 </h3>
@@ -184,11 +182,10 @@ export function CatalogPage() {
             <button
               key={i}
               onClick={() => setPage(i + 1)}
-              className={`w-10 h-10 rounded-lg text-sm font-medium transition-all ${
-                page === i + 1
+              className={`w-10 h-10 rounded-lg text-sm font-medium transition-all ${page === i + 1
                   ? 'bg-primary-600 text-white'
                   : 'glass-light text-slate-300 hover:text-white'
-              }`}
+                }`}
             >
               {i + 1}
             </button>
