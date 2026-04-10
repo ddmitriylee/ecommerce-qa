@@ -313,4 +313,117 @@ describe('PUT /cart/:id', () => {
 
     expect(res.statusCode).toBe(400);
   });
+
+  it('TC-CART-EDGE-05: returns 404 when updating non-existent cart item', async () => {
+    vi.mocked(requireAuth).mockResolvedValue(MOCK_USER as any);
+
+    const supabase: any = {
+      from: vi.fn().mockReturnValue({
+        update: vi.fn().mockReturnValue({
+          eq: vi.fn().mockReturnValue({
+            eq: vi.fn().mockReturnValue({
+              select: vi.fn().mockReturnValue({
+                single: vi.fn().mockResolvedValue({ data: null, error: { message: 'not found' } }),
+              }),
+            }),
+          }),
+        }),
+      }),
+    };
+    vi.mocked(getSupabaseAdmin).mockReturnValue(supabase);
+
+    const req = mockReq('PUT', { id: 'nonexistent' }, { quantity: 2 }, { authorization: 'Bearer valid' });
+    const res = mockRes();
+    await cartItemHandler(req, res);
+
+    expect(res.statusCode).toBe(404);
+  });
+
+  it('TC-CART-EDGE-06: returns 400 when quantity is missing in PUT', async () => {
+    vi.mocked(requireAuth).mockResolvedValue(MOCK_USER as any);
+    vi.mocked(getSupabaseAdmin).mockReturnValue({} as any);
+
+    const req = mockReq('PUT', { id: 'ci-1' }, {});
+    const res = mockRes();
+    await cartItemHandler(req, res);
+
+    expect(res.statusCode).toBe(400);
+  });
+});
+
+// ─────────────────────────────────────────────────────────────────────────────
+// DELETE /cart/:id
+// ─────────────────────────────────────────────────────────────────────────────
+
+describe('DELETE /cart/:id', () => {
+  beforeEach(() => vi.clearAllMocks());
+
+  it('TC-CART-UNIT-06: deletes single cart item', async () => {
+    vi.mocked(requireAuth).mockResolvedValue(MOCK_USER as any);
+
+    const supabase: any = {
+      from: vi.fn().mockReturnValue({
+        delete: vi.fn().mockReturnValue({
+          eq: vi.fn().mockReturnValue({
+            eq: vi.fn().mockResolvedValue({ error: null }),
+          }),
+        }),
+      }),
+    };
+    vi.mocked(getSupabaseAdmin).mockReturnValue(supabase);
+
+    const req = mockReq('DELETE', { id: 'ci-1' }, {}, { authorization: 'Bearer valid' });
+    const res = mockRes();
+    await cartItemHandler(req, res);
+
+    expect(res.statusCode).toBe(200);
+    expect(res.body.data.deleted).toBe(true);
+  });
+
+  it('TC-CART-FAIL-02: returns 401 on DELETE without auth', async () => {
+    vi.mocked(requireAuth).mockImplementation(async (_req: any, res: any) => {
+      res.status(401).json({ data: null, error: 'Unauthorized' });
+      return null;
+    });
+
+    const req = mockReq('DELETE', { id: 'ci-1' });
+    const res = mockRes();
+    await cartItemHandler(req, res);
+
+    expect(res.statusCode).toBe(401);
+  });
+});
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Method not allowed for /cart/:id
+// ─────────────────────────────────────────────────────────────────────────────
+
+describe('PATCH /cart/:id', () => {
+  it('TC-CART-FAIL-03: returns 405 for unsupported method', async () => {
+    vi.mocked(requireAuth).mockResolvedValue(MOCK_USER as any);
+    vi.mocked(getSupabaseAdmin).mockReturnValue({} as any);
+
+    const req = mockReq('PATCH', { id: 'ci-1' });
+    const res = mockRes();
+    await cartItemHandler(req, res);
+
+    expect(res.statusCode).toBe(405);
+  });
+});
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Method not allowed for /cart
+// ─────────────────────────────────────────────────────────────────────────────
+
+describe('PUT /cart (index)', () => {
+  it('TC-CART-FAIL-04: returns 405 for unsupported PUT on cart index', async () => {
+    vi.mocked(requireAuth).mockResolvedValue(MOCK_USER as any);
+    vi.mocked(getSupabaseAdmin).mockReturnValue({} as any);
+
+    const req = mockReq('PUT');
+    const res = mockRes();
+    await handler(req, res);
+
+    expect(res.statusCode).toBe(405);
+  });
 });

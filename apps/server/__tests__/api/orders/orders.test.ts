@@ -306,4 +306,77 @@ describe('GET /orders/:id', () => {
     expect(res.statusCode).toBe(400);
     expect(res.body.error).toMatch(/status must be one of/i);
   });
+
+  it('TC-ORD-UNIT-04: admin can update order status to shipped', async () => {
+    vi.mocked(requireAuth).mockResolvedValue(MOCK_USER as any);
+    vi.mocked(requireAdmin).mockResolvedValue({ id: 'admin-1' } as any);
+
+    const updatedOrder = { id: 'o1', user_id: MOCK_USER.id, status: 'shipped' };
+    const supabase: any = {
+      from: vi.fn().mockReturnValue({
+        update: vi.fn().mockReturnValue({
+          eq: vi.fn().mockReturnValue({
+            select: vi.fn().mockReturnValue({
+              single: vi.fn().mockResolvedValue({ data: updatedOrder, error: null }),
+            }),
+          }),
+        }),
+      }),
+    };
+    vi.mocked(getSupabaseAdmin).mockReturnValue(supabase);
+
+    const req = mockReq('PUT', { id: 'o1' }, { status: 'shipped' });
+    const res = mockRes();
+    await orderItemHandler(req, res);
+
+    expect(res.statusCode).toBe(200);
+    expect(res.body.data.status).toBe('shipped');
+  });
+
+  it('TC-ORD-EDGE-04: PUT /orders/:id with missing status returns 400', async () => {
+    vi.mocked(requireAuth).mockResolvedValue(MOCK_USER as any);
+    vi.mocked(requireAdmin).mockResolvedValue({ id: 'admin-1' } as any);
+    vi.mocked(getSupabaseAdmin).mockReturnValue({} as any);
+
+    const req = mockReq('PUT', { id: 'o1' }, {});
+    const res = mockRes();
+    await orderItemHandler(req, res);
+
+    expect(res.statusCode).toBe(400);
+  });
+
+  it('TC-ORD-FAIL-05: returns 404 when updating status on non-existent order', async () => {
+    vi.mocked(requireAuth).mockResolvedValue(MOCK_USER as any);
+    vi.mocked(requireAdmin).mockResolvedValue({ id: 'admin-1' } as any);
+
+    const supabase: any = {
+      from: vi.fn().mockReturnValue({
+        update: vi.fn().mockReturnValue({
+          eq: vi.fn().mockReturnValue({
+            select: vi.fn().mockReturnValue({
+              single: vi.fn().mockResolvedValue({ data: null, error: null }),
+            }),
+          }),
+        }),
+      }),
+    };
+    vi.mocked(getSupabaseAdmin).mockReturnValue(supabase);
+
+    const req = mockReq('PUT', { id: 'nonexistent' }, { status: 'delivered' });
+    const res = mockRes();
+    await orderItemHandler(req, res);
+
+    expect(res.statusCode).toBe(404);
+  });
+
+  it('TC-ORD-FAIL-06: returns 405 for DELETE on /orders/:id', async () => {
+    vi.mocked(requireAuth).mockResolvedValue(MOCK_USER as any);
+    vi.mocked(getSupabaseAdmin).mockReturnValue({} as any);
+
+    const req = mockReq('DELETE', { id: 'o1' });
+    const res = mockRes();
+    await orderItemHandler(req, res);
+
+    expect(res.statusCode).toBe(405);
+  });
 });

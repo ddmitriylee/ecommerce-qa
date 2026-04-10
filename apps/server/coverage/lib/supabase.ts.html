@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/11</span>
+                <span class='fraction'>11/11</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/6</span>
+                <span class='fraction'>6/6</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/2</span>
+                <span class='fraction'>2/2</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/11</span>
+                <span class='fraction'>11/11</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -107,38 +107,38 @@
 <a name='L42'></a><a href='#L42'>42</a>
 <a name='L43'></a><a href='#L43'>43</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -149,38 +149,38 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { createClient, type SupabaseClient } from '@supabase/supabase-js';
 &nbsp;
-let adminClient: SupabaseClient | null = <span class="cstat-no" title="statement not covered" >null;</span>
+let adminClient: SupabaseClient | null = null;
 &nbsp;
 /**
  * Get the Supabase admin client (singleton per cold start).
  */
-export function <span class="fstat-no" title="function not covered" >getSupabaseAdmin(): SupabaseClient {</span>
-<span class="cstat-no" title="statement not covered" >  if (!adminClient) {</span>
-    const url = <span class="cstat-no" title="statement not covered" >process.env.SUPABASE_URL;</span>
-    const serviceKey = <span class="cstat-no" title="statement not covered" >process.env.SUPABASE_SERVICE_ROLE_KEY;</span>
+export function getSupabaseAdmin(): SupabaseClient {
+  if (!adminClient) {
+    const url = process.env.SUPABASE_URL;
+    const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    if (!url || !serviceKey) {</span>
-<span class="cstat-no" title="statement not covered" >      throw new Error('Missing SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY');</span>
+    if (!url || !serviceKey) {
+      throw new Error('Missing SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY');
     }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    adminClient = createClient(url, serviceKey, {</span>
+    adminClient = createClient(url, serviceKey, {
       auth: {
         autoRefreshToken: false,
         persistSession: false,
       },
     });
   }
-<span class="cstat-no" title="statement not covered" >  return adminClient;</span>
+  return adminClient;
 }
 &nbsp;
 /**
  * Create a Supabase client scoped to the requesting user's JWT.
  */
-export function <span class="fstat-no" title="function not covered" >getSupabaseForUser(a</span>ccessToken: string): SupabaseClient {
-  const url = <span class="cstat-no" title="statement not covered" >process.env.SUPABASE_URL!;</span>
-  const anonKey = <span class="cstat-no" title="statement not covered" >process.env.SUPABASE_ANON_KEY!;</span>
+export function getSupabaseForUser(accessToken: string): SupabaseClient {
+  const url = process.env.SUPABASE_URL!;
+  const anonKey = process.env.SUPABASE_ANON_KEY!;
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return createClient(url, anonKey, {</span>
+  return createClient(url, anonKey, {
     global: {
       headers: { Authorization: `Bearer ${accessToken}` },
     },
@@ -196,7 +196,7 @@ export type { SupabaseClient };
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-04-10T14:23:08.592Z
+                at 2026-04-10T17:41:30.540Z
             </div>
         <script src="../prettify.js"></script>
         <script>
