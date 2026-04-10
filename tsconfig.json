@@ -1,4 +1,5 @@
 {
+  "files": [],
   "compilerOptions": {
     "target": "ES2022",
     "module": "ESNext",
@@ -13,10 +14,20 @@
     "composite": true
   },
   "references": [
-    { "path": "./packages/types" },
-    { "path": "./packages/utils" },
-    { "path": "./packages/config" },
-    { "path": "./apps/client" },
-    { "path": "./apps/server" }
+    {
+      "path": "./packages/types"
+    },
+    {
+      "path": "./packages/utils"
+    },
+    {
+      "path": "./packages/config"
+    },
+    {
+      "path": "./apps/client"
+    },
+    {
+      "path": "./apps/server"
+    }
   ]
 }
