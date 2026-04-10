@@ -27,7 +27,7 @@ interface CartState {
   clearCart: () => Promise<void>;
 }
 
-function calcTotals(items: CartItem[]) {
+export function calcTotals(items: CartItem[]) {
   let totalItems = 0;
   let totalPrice = 0;
   for (const item of items) {

@@ -21,10 +21,9 @@ test.describe('Cart Page', () => {
     await expect(page).not.toHaveURL('/404');
     await expect(page.locator('body')).not.toContainText('Page not found');
     // Should show cart heading or empty cart message
-    const hasCartContent = await page.locator(
-      'h1:has-text("Cart"), h2:has-text("Cart"), text=/cart|empty|no item/i'
-    ).count();
-    expect(hasCartContent).toBeGreaterThan(0);
+    const hasCartHeading = await page.locator('h1, h2').filter({ hasText: /cart/i }).count();
+    const hasEmptyMessage = await page.getByText(/empty|no item/i).count();
+    expect(hasCartHeading + hasEmptyMessage).toBeGreaterThan(0);
   });
 
   test('TC-E2E-CART-02: empty cart shows an empty state message', async ({ page }) => {

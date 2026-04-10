@@ -97,7 +97,7 @@ test.describe('Register Page', () => {
 
 test.describe('Protected Routes', () => {
   test('TC-E2E-AUTH-07: unauthenticated user accessing /profile sees login redirect or prompt', async ({ page }) => {
-    // Clear any stored session
+    await page.goto('/');
     await page.context().clearCookies();
     await page.evaluate(() => {
       localStorage.removeItem('session');
@@ -116,6 +116,7 @@ test.describe('Protected Routes', () => {
   });
 
   test('TC-E2E-AUTH-08: accessing /admin without admin role shows forbidden or redirect', async ({ page }) => {
+    await page.goto('/');
     await page.context().clearCookies();
     await page.evaluate(() => { localStorage.clear(); });
     await page.goto('/admin');
