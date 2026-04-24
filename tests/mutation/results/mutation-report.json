@@ -1,0 +1,193 @@
+{
+  "timestamp": "2026-04-24T14:51:08.436Z",
+  "totalMutants": 16,
+  "killed": 15,
+  "survived": 1,
+  "score": "93.8",
+  "byModule": {
+    "lib/auth.ts": {
+      "created": 6,
+      "killed": 6,
+      "survived": 0,
+      "score": "100.0",
+      "mutants": [
+        {
+          "id": "MUT-AUTH-01",
+          "module": "lib/auth.ts",
+          "description": "Negate Bearer prefix check (startsWith)",
+          "type": "Logical Operator",
+          "file": "lib/auth.ts",
+          "search": "if (!auth?.startsWith('Bearer ')) return null;",
+          "replace": "if (auth?.startsWith('Bearer ')) return null;",
+          "status": "KILLED"
+        },
+        {
+          "id": "MUT-AUTH-02",
+          "module": "lib/auth.ts",
+          "description": "Remove token slice (return full auth header)",
+          "type": "Return Value Modification",
+          "file": "lib/auth.ts",
+          "search": "return auth.slice(7);",
+          "replace": "return auth;",
+          "status": "KILLED"
+        },
+        {
+          "id": "MUT-AUTH-03",
+          "module": "lib/auth.ts",
+          "description": "Return null instead of user from getAuthUser",
+          "type": "Return Value Modification",
+          "file": "lib/auth.ts",
+          "search": "  if (error || !data.user) return null;\n  return data.user;",
+          "replace": "  if (error || !data.user) return null;\n  return null;",
+          "status": "KILLED"
+        },
+        {
+          "id": "MUT-AUTH-04",
+          "module": "lib/auth.ts",
+          "description": "Remove null guard on token (skip early return)",
+          "type": "Function Call Removal",
+          "file": "lib/auth.ts",
+          "search": "  const token = extractToken(req);\n  if (!token) return null;",
+          "replace": "  const token = extractToken(req);",
+          "status": "KILLED"
+        },
+        {
+          "id": "MUT-AUTH-05",
+          "module": "lib/auth.ts",
+          "description": "Change 401 status code to 200 in requireAuth",
+          "type": "Constant Alteration",
+          "file": "lib/auth.ts",
+          "search": "res.status(401).json({ data: null, error: 'Unauthorized' });",
+          "replace": "res.status(200).json({ data: null, error: 'Unauthorized' });",
+          "status": "KILLED"
+        },
+        {
+          "id": "MUT-AUTH-06",
+          "module": "lib/auth.ts",
+          "description": "Change admin role check from \"admin\" to \"user\"",
+          "type": "Constant Alteration",
+          "file": "lib/auth.ts",
+          "search": "  if (profile?.role !== 'admin') {",
+          "replace": "  if (profile?.role !== 'user') {",
+          "status": "KILLED"
+        }
+      ]
+    },
+    "lib/errors.ts": {
+      "created": 5,
+      "killed": 5,
+      "survived": 0,
+      "score": "100.0",
+      "mutants": [
+        {
+          "id": "MUT-ERR-01",
+          "module": "lib/errors.ts",
+          "description": "Negate AppError instanceof check in handleError",
+          "type": "Logical Operator",
+          "file": "lib/errors.ts",
+          "search": "  if (error instanceof AppError) {",
+          "replace": "  if (!(error instanceof AppError)) {",
+          "status": "KILLED"
+        },
+        {
+          "id": "MUT-ERR-02",
+          "module": "lib/errors.ts",
+          "description": "Change 500 status to 200 in handleError fallback",
+          "type": "Constant Alteration",
+          "file": "lib/errors.ts",
+          "search": "  return res.status(500).json({",
+          "replace": "  return res.status(200).json({",
+          "status": "KILLED"
+        },
+        {
+          "id": "MUT-ERR-03",
+          "module": "lib/errors.ts",
+          "description": "Change sendSuccess default status from 200 to 500",
+          "type": "Constant Alteration",
+          "file": "lib/errors.ts",
+          "search": "export function sendSuccess<T>(res: VercelResponse, data: T, status = 200) {",
+          "replace": "export function sendSuccess<T>(res: VercelResponse, data: T, status = 500) {",
+          "status": "KILLED"
+        },
+        {
+          "id": "MUT-ERR-04",
+          "module": "lib/errors.ts",
+          "description": "Return error key instead of data key in sendSuccess",
+          "type": "Return Value Modification",
+          "file": "lib/errors.ts",
+          "search": "  return res.status(status).json({ data, error: null });",
+          "replace": "  return res.status(status).json({ data: null, error: 'mutated' });",
+          "status": "KILLED"
+        },
+        {
+          "id": "MUT-ERR-05",
+          "module": "lib/errors.ts",
+          "description": "Change 405 status to 200 in methodNotAllowed",
+          "type": "Constant Alteration",
+          "file": "lib/errors.ts",
+          "search": "  return res.status(405).json({ data: null, error: 'Method not allowed' });",
+          "replace": "  return res.status(200).json({ data: null, error: 'Method not allowed' });",
+          "status": "KILLED"
+        }
+      ]
+    },
+    "api/cart/index.ts": {
+      "created": 5,
+      "killed": 4,
+      "survived": 1,
+      "score": "80.0",
+      "mutants": [
+        {
+          "id": "MUT-CART-01",
+          "module": "api/cart/index.ts",
+          "description": "Remove validation: allow quantity = 0",
+          "type": "Logical Operator",
+          "file": "api/cart/index.ts",
+          "search": "        if (!product_id || !quantity || quantity < 1) {",
+          "replace": "        if (!product_id) {",
+          "status": "KILLED"
+        },
+        {
+          "id": "MUT-CART-02",
+          "module": "api/cart/index.ts",
+          "description": "Return 200 instead of 201 on cart POST",
+          "type": "Constant Alteration",
+          "file": "api/cart/index.ts",
+          "search": "        return sendSuccess(res, result, 201);",
+          "replace": "        return sendSuccess(res, result, 200);",
+          "status": "KILLED"
+        },
+        {
+          "id": "MUT-CART-03",
+          "module": "api/cart/index.ts",
+          "description": "Remove user_id filter on GET /cart (returns all users carts)",
+          "type": "Function Call Removal",
+          "file": "api/cart/index.ts",
+          "search": "          .eq('user_id', user.id);",
+          "replace": "          ;",
+          "status": "KILLED"
+        },
+        {
+          "id": "MUT-CART-04",
+          "module": "api/cart/index.ts",
+          "description": "Negate existing-item check (always insert, never update)",
+          "type": "Logical Operator",
+          "file": "api/cart/index.ts",
+          "search": "        if (existing) {",
+          "replace": "        if (!existing) {",
+          "status": "KILLED"
+        },
+        {
+          "id": "MUT-CART-05",
+          "module": "api/cart/index.ts",
+          "description": "Remove user_id filter on DELETE /cart (deletes all carts)",
+          "type": "Function Call Removal",
+          "file": "api/cart/index.ts",
+          "search": "          .delete()\n          .eq('user_id', user.id);",
+          "replace": "          .delete()\n          .eq('user_id', '');",
+          "status": "SURVIVED"
+        }
+      ]
+    }
+  }
+}

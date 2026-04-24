@@ -14,7 +14,10 @@
     "lint": "npm run lint -ws --if-present",
     "typecheck": "npm run typecheck -ws --if-present",
     "test": "npm test -ws --if-present",
-    "test:e2e": "npm run test:e2e -ws --if-present"
+    "test:e2e": "npm run test:e2e -ws --if-present",
+    "mutation": "node tests/mutation/mutation-runner.mjs",
+    "test:perf": "cd apps/server && npx vitest run __tests__/performance",
+    "test:chaos": "cd apps/server && npx vitest run __tests__/chaos"
   },
   "dependencies": {
     "playwright": "^1.58.2",

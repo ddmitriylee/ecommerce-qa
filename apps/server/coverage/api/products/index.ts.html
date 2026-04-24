@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">80.55% </span>
+                <span class="strong">83.33% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>29/36</span>
+                <span class='fraction'>30/36</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">77.77% </span>
+                <span class="strong">81.48% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>21/27</span>
+                <span class='fraction'>22/27</span>
             </div>
         
             
@@ -147,13 +147,11 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">157x</span>
+<span class="cline-any cline-yes">157x</span>
+<span class="cline-any cline-yes">157x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">157x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -162,30 +160,32 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">154x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">154x</span>
+<span class="cline-any cline-yes">154x</span>
+<span class="cline-any cline-yes">154x</span>
+<span class="cline-any cline-yes">154x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">154x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">154x</span>
+<span class="cline-any cline-yes">154x</span>
+<span class="cline-any cline-yes">154x</span>
+<span class="cline-any cline-yes">154x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">154x</span>
+<span class="cline-any cline-yes">154x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">154x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">154x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">154x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -254,7 +254,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         if (category_id) query = query.eq('category_id', category_id);
         <span class="missing-if-branch" title="if path not taken" >I</span>if (min_price) <span class="cstat-no" title="statement not covered" >query = query.gte('price', parseFloat(min_price));</span>
         <span class="missing-if-branch" title="if path not taken" >I</span>if (max_price) <span class="cstat-no" title="statement not covered" >query = query.lte('price', parseFloat(max_price));</span>
-        <span class="missing-if-branch" title="if path not taken" >I</span>if (search) <span class="cstat-no" title="statement not covered" >query = query.ilike('title', `%${search}%`);</span>
+        if (search) query = query.ilike('title', `%${search}%`);
 &nbsp;
         query = query.order(sort_by, { ascending: sort_order === 'asc' });
         query = query.range(from, to);
@@ -304,7 +304,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-04-10T23:27:50.484Z
+                at 2026-04-24T14:51:31.073Z
             </div>
         <script src="../../prettify.js"></script>
         <script>
